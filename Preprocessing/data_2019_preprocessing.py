@@ -135,7 +135,7 @@ df_2019['actor_2_name'] = df_2019['Cast and crew'].map(lambda x: get_actor2(x))
 df_2019['actor_3_name'] = df_2019['Cast and crew'].map(lambda x: get_actor3(x))
 
 df_2019 = df_2019.rename(columns={'Title':'movie_title'})
-new_df19 = df_2019.drop(columns=['Cast and crew','imdb_url'])
+new_df19 = df_2019.drop(columns=['Cast and crew'])
 
 new_df19['actor_2_name'] = new_df19['actor_2_name'].replace(np.nan, 'unknown')
 new_df19['actor_3_name'] = new_df19['actor_3_name'].replace(np.nan, 'unknown')

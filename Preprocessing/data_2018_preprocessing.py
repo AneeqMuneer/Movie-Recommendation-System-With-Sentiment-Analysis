@@ -135,7 +135,7 @@ df_2018['actor_2_name'] = df_2018['Cast and crew'].apply(get_actor2)
 df_2018['actor_3_name'] = df_2018['Cast and crew'].apply(get_actor3)
 
 df_2018 = df_2018.rename(columns={'Title':'movie_title'})
-new_df18 = df_2018.drop(columns=['Cast and crew','imdb_url'])
+new_df18 = df_2018.drop(columns=['Cast and crew'])
 
 new_df18['actor_2_name'] = new_df18['actor_2_name'].replace(np.nan, 'unknown')
 new_df18['actor_3_name'] = new_df18['actor_3_name'].replace(np.nan, 'unknown')

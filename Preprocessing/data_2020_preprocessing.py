@@ -146,7 +146,7 @@ df_2020['actor_2_name'] = df_2020['Cast and crew'].map(lambda x: get_actor2(x))
 df_2020['actor_3_name'] = df_2020['Cast and crew'].map(lambda x: get_actor3(x))
 
 df_2020 = df_2020.rename(columns={'Title':'movie_title'})
-new_df20 = df_2020.drop(columns=['Cast and crew','imdb_url'])
+new_df20 = df_2020.drop(columns=['Cast and crew'])
 
 new_df20['actor_2_name'] = new_df20['actor_2_name'].replace(np.nan, 'unknown')
 new_df20['actor_3_name'] = new_df20['actor_3_name'].replace(np.nan, 'unknown')
@@ -154,4 +154,4 @@ new_df20['movie_title'] = new_df20['movie_title'].str.lower()
 
 print(new_df20.isna().sum())
 
-new_df20.to_csv("data_2020.csv", index=False)
+new_df20.to_csv("../Dataset/data_2020.csv", index=False)

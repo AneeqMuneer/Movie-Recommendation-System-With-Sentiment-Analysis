@@ -63,7 +63,8 @@ df_2016['movie_title'] = df_2016['movie_title'].apply(lambda x : x[:-1])
 
 df_2016['imdb_reviews'] = df_2016.apply(fetch_and_clean_reviews, axis=1)
 
-df_2016 = df_2016.drop(columns=['movie_imdb_link','title_year'])
+df_2016 = df_2016.rename(columns={'movie_imdb_link':'imdb_url'})
+df_2016 = df_2016.drop(columns=['title_year'])
 
 print(df_2016.isna().sum())
 
