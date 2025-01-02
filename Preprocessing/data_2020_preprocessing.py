@@ -5,7 +5,7 @@ from tmdbv3api import Movie
 import json
 import requests
 from bs4 import BeautifulSoup
-import dotenv as load_dotenv
+from dotenv import load_dotenv
 import os
 import re
 import math
@@ -19,31 +19,42 @@ tmdb.api_key = os.getenv("TMDB_API_KEY")
 
 def get_genre(x):
     genres = []
-    result = tmdb_movie.search(x)
-    movie_id = result[0].id
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}'.format(movie_id,tmdb.api_key))
-    data_json = response.json()
-    if data_json['genres']:
-        genre_str = " "
-        for i in range(0,len(data_json['genres'])):
-            genres.append(data_json['genres'][i]['name'])
-        return genre_str.join(genres)
-    else:
-        np.NaN
+    try:
+        result = tmdb_movie.search(x)
+        if result:
+            movie_id = result[0].id
+            response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={tmdb.api_key}')
+            data_json = response.json()
+
+            if 'genres' in data_json and data_json['genres']:
+                for genre in data_json['genres']:
+                    genres.append(genre['name'])
+                return " ".join(genres)
+            else:
+                return np.NaN
+        else:
+            return np.NaN
+    except Exception as e:
+        print(f"Error in get_genre for {x}: {e}")
+        return np.NaN
 
 
 def get_imdb(x):
-    result = tmdb_movie.search(x)
-    if not result:
-        return np.NaN
-    movie_id = result[0].id
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}'.format(movie_id, tmdb.api_key))
-    data_json = response.json()
-    imdb_id = data_json.get('imdb_id', None)
-    if imdb_id:
-        return f"https://www.imdb.com/title/{imdb_id}/"
-    else:
-        return np.NaN
+  try:
+      result = tmdb_movie.search(x)
+      if not result:
+          return np.NaN
+      movie_id = result[0].id
+      response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}'.format(movie_id, tmdb.api_key))
+      data_json = response.json()
+      imdb_id = data_json.get('imdb_id', None)
+      if imdb_id:
+          return f"https://www.imdb.com/title/{imdb_id}/"
+      else:
+          return np.NaN
+  except Exception as e:
+      print(f"Error in get_imdb for {x}: {e}")
+      return np.NaN
 
 
 def get_imdb_reviews(imdb_url):
@@ -114,33 +125,33 @@ def get_actor3(x):
         return ((x.split("screenplay); ")[-1]).split(", ")[2])
 
 
-link = "https://en.wikipedia.org/wiki/List_of_American_films_of_2019"
+link = "https://en.wikipedia.org/wiki/List_of_American_films_of_2020"
 df1 = pd.read_html(link, header=0)[2]
 df2 = pd.read_html(link, header=0)[3]
 df3 = pd.read_html(link, header=0)[4]
 df4 = pd.read_html(link, header=0)[5]
 
-df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+df_2020 = pd.concat([df1, df2, df3, df4], ignore_index=True)
 
-df_2019 = df[['Title','Cast and crew']]
+df_2020 = df_2020[['Title','Cast and crew']]
 
-df['genres'] = df['Title'].map(lambda x: get_genre(str(x)))
-df_2019['imdb_url'] = df_2019['Title'].apply(get_imdb)
-df_2019.dropna(how='any' , inplace=True)
-df_2019['imdb_reviews'] = df_2019.apply(fetch_and_clean_reviews, axis=1)
+df_2020['genres'] = df_2020['Title'].map(lambda x: get_genre(str(x)))
+df_2020.dropna(how='any' , inplace=True)
+df_2020['imdb_url'] = df_2020['Title'].apply(get_imdb)
+df_2020['imdb_reviews'] = df_2020.apply(fetch_and_clean_reviews, axis=1)
 
-df_2019['director_name'] = df_2019['Cast and crew'].map(lambda x: get_director(str(x)))
-df_2019['actor_1_name'] = df_2019['Cast and crew'].map(lambda x: get_actor1(x))
-df_2019['actor_2_name'] = df_2019['Cast and crew'].map(lambda x: get_actor2(x))
-df_2019['actor_3_name'] = df_2019['Cast and crew'].map(lambda x: get_actor3(x))
+df_2020['director_name'] = df_2020['Cast and crew'].map(lambda x: get_director(str(x)))
+df_2020['actor_1_name'] = df_2020['Cast and crew'].map(lambda x: get_actor1(x))
+df_2020['actor_2_name'] = df_2020['Cast and crew'].map(lambda x: get_actor2(x))
+df_2020['actor_3_name'] = df_2020['Cast and crew'].map(lambda x: get_actor3(x))
 
-df_2019 = df_2019.rename(columns={'Title':'movie_title'})
-new_df19 = df_2019.drop(columns=['Cast and crew','imdb_url'])
+df_2020 = df_2020.rename(columns={'Title':'movie_title'})
+new_df20 = df_2020.drop(columns=['Cast and crew','imdb_url'])
 
-new_df19['actor_2_name'] = new_df19['actor_2_name'].replace(np.nan, 'unknown')
-new_df19['actor_3_name'] = new_df19['actor_3_name'].replace(np.nan, 'unknown')
-new_df19['movie_title'] = new_df19['movie_title'].str.lower()
+new_df20['actor_2_name'] = new_df20['actor_2_name'].replace(np.nan, 'unknown')
+new_df20['actor_3_name'] = new_df20['actor_3_name'].replace(np.nan, 'unknown')
+new_df20['movie_title'] = new_df20['movie_title'].str.lower()
 
-print(new_df19.isna().sum())
+print(new_df20.isna().sum())
 
-new_df19.to_csv("../Dataset/data_2019.csv", index=False)
+new_df20.to_csv("data_2020.csv", index=False)

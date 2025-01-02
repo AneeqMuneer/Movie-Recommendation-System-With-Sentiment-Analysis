@@ -13,8 +13,8 @@ import math
 load_dotenv()
 
 tmdb = TMDb()
-tmdb.api_key = os.getenv("TMDB_API_KEY")
 tmdb_movie = Movie()
+tmdb.api_key = os.getenv("TMDB_API_KEY")
 
 
 def get_genre(x):
