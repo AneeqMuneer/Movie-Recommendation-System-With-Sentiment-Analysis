@@ -31,6 +31,7 @@ body {
   color: white;
   font-size: 1rem;
   padding: 10px;
+  font-family: MakroRegular;
 }
 
 .searchButton {
@@ -54,23 +55,26 @@ body {
   stroke: white;
 }
 
-.movie-container {
-  display: flex;
-  max-width: 90%;
+.details {
   background-color: #25272c;
-  border-radius: 10px;
-  overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  width: 90%;
   margin-top: 5%;
   margin-bottom: 5%;
   margin-left: 5%;
   margin-right: 5%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.movie-container {
+  display: flex;
 }
 
 .poster-div img {
   width: 90%;
   height: auto;
-  margin: 20px;
+  margin: 1rem;
   align-self: center;
   box-shadow: 0 4px 20px rgba(154, 154, 154, 0.5);
   border-radius: 2rem;
@@ -78,7 +82,7 @@ body {
 
 .details-div {
   flex: 1;
-  padding: 20px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -90,7 +94,7 @@ h1 {
 
 .content-row {
   display: flex;
-  gap: 20px;
+  gap: 1rem;
   margin-top: 20px;
 }
 
@@ -99,7 +103,7 @@ h1 {
 }
 
 .tags {
-  margin: 10px 0;
+  margin: 1rem 0rem;
 }
 
 .tags span {
@@ -191,26 +195,14 @@ ul li::before {
   margin-top: 3px;
 }
 
-ul li.arrow::before {
-  content: "→";
-  font-size: 0.9rem;
-  color: #93b3f3;
-  background: none;
-  margin-right: 10px;
-  font-weight: bold;
-  margin-top: 0;
-}
-
 .extra-details {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 90%;
-  background-color: #25272c;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  margin: 5% auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 1rem 0;
 }
 
@@ -229,8 +221,93 @@ ul li.arrow::before {
 }
 
 .recommended-heading h2 {
-  margin: 0 10px;
+  margin: 0rem 2rem;
   font-size: 2.5rem;
   font-weight: bold;
   color: #b8552d;
+}
+
+.no-review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+.review-table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: MakroRegular, Arial, sans-serif;
+  background-color: #25272c;
+}
+
+.review-table th,
+.review-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  color: white;
+}
+
+.review-table th {
+  font-weight: bold;
+  text-align: center;
+}
+
+.review-table td:nth-child(2) {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+/* Style for the recommended-movies container */
+.recommended-movies {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping to a new row */
+  justify-content: center; /* Aligns items in the center when fewer than 4 in a row */
+  gap: 20px; /* Spacing between movie cards */
+  padding: 20px;
+  background-color: #25272C; /* Optional: Add a background color */
+}
+
+/* Style for each movie card */
+.movie-card {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align items horizontally */
+  width: 200px; /* Fixed width for the movie card */
+  background-color: #202124; /* Card background */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: Add some shadow for depth */
+  overflow: hidden; /* Ensures no overflow */
+  text-align: center;
+  color: white;
+  cursor: pointer; /* Change the cursor to indicate clickability */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Image styling inside the movie card */
+.movie-card img {
+  width: 100%; /* Ensure the image spans the card width */
+  border-radius: 5px; /* Slightly rounded corners */
+  margin-bottom: 10px; /* Space between image and title */
+}
+
+/* Title styling inside the movie card */
+.movie-card h3 {
+  font-size: 1.1rem;
+  word-wrap: break-word; /* Wraps long words */
+  width: 100%; /* Ensures the title width matches the card width */
+  margin: 0;
+  overflow: hidden; /* Prevent overflow for very long titles */
+  text-overflow: ellipsis; /* Adds "..." for overly long text */
+  white-space: wrap;
 }
