@@ -15,8 +15,8 @@ body {
   display: flex;
   align-items: center;
   background: #2f3640;
-  border-radius: 50px;
-  padding: 10px;
+  border-radius: 3.125rem;
+  padding: 0.625rem;
   width: 90%;
   margin-top: 1.5rem;
   margin-left: auto;
@@ -30,7 +30,7 @@ body {
   outline: none;
   color: white;
   font-size: 1rem;
-  padding: 10px;
+  padding: 0.625rem;
   font-family: MakroRegular;
 }
 
@@ -38,8 +38,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: none;
   border-radius: 50%;
   background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
@@ -57,7 +57,7 @@ body {
 
 .details {
   background-color: #25272c;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.5);
   width: 90%;
   margin-top: 5%;
   margin-bottom: 5%;
@@ -72,11 +72,11 @@ body {
 }
 
 .poster-div img {
-  width: 90%;
-  height: auto;
+  width: 400px;
+  height: 500px;
   margin: 1rem;
   align-self: center;
-  box-shadow: 0 4px 20px rgba(154, 154, 154, 0.5);
+  box-shadow: 0 0.25rem 1.25rem rgba(154, 154, 154, 0.5);
   border-radius: 2rem;
 }
 
@@ -95,7 +95,7 @@ h1 {
 .content-row {
   display: flex;
   gap: 1rem;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .left-column {
@@ -110,13 +110,12 @@ h1 {
   display: inline-block;
   background-color: #4a4a4a;
   color: #fff;
-  padding: 5px 15px;
-  border-radius: 5px;
-  font-size: 0.75rem;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  font-weight: lighter;
+  padding: 0.3125rem 0.9375rem;
   border-radius: 1.5rem;
+  font-size: 0.75rem;
+  margin-right: 0.625rem;
+  margin-bottom: 0.625rem;
+  font-weight: lighter;
 }
 
 .description {
@@ -134,7 +133,7 @@ h1 {
   color: #93b3f3;
   cursor: pointer;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   display: none;
 }
 
@@ -153,20 +152,20 @@ h1 {
 }
 
 .section {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .line {
   width: 90%;
-  height: 1px;
+  height: 0.0625rem;
   background-color: #93b3f3;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 strong {
   color: #93b3f3;
   font-size: 1.1rem;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   display: block;
 }
 
@@ -179,20 +178,20 @@ ul {
 ul li {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
   font-size: 0.9rem;
   line-height: 1.4;
 }
 
 ul li::before {
   content: "";
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   background: linear-gradient(45deg, #93b3f3, #93b3f3);
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 0.625rem;
   flex-shrink: 0;
-  margin-top: 3px;
+  margin-top: 0.1875rem;
 }
 
 .extra-details {
@@ -238,7 +237,7 @@ ul li::before {
 
 .review-table {
   width: 90%;
-  margin: 20px auto;
+  margin: 1.25rem auto;
   border-collapse: collapse;
   font-family: MakroRegular, Arial, sans-serif;
   background-color: #25272c;
@@ -246,8 +245,8 @@ ul li::before {
 
 .review-table th,
 .review-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
+  border: 0.0625rem solid #ccc;
+  padding: 0.625rem;
   text-align: left;
   color: white;
 }
@@ -259,55 +258,52 @@ ul li::before {
 
 .review-table td:nth-child(2) {
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
-/* Style for the recommended-movies container */
 .recommended-movies {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping to a new row */
-  justify-content: center; /* Aligns items in the center when fewer than 4 in a row */
-  gap: 20px; /* Spacing between movie cards */
-  padding: 20px;
-  background-color: #25272C; /* Optional: Add a background color */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background-color: #25272c;
 }
 
-/* Style for each movie card */
 .movie-card {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center align items horizontally */
-  width: 200px; /* Fixed width for the movie card */
-  background-color: #202124; /* Card background */
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: Add some shadow for depth */
-  overflow: hidden; /* Ensures no overflow */
+  flex-direction: column;
+  align-items: center;
+  width: 12.5rem;
+  background-color: #2F3640;
+  padding: 0.9375rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.5);
+  overflow: hidden;
   text-align: center;
   color: white;
-  cursor: pointer; /* Change the cursor to indicate clickability */
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .movie-card:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.5);
 }
 
-/* Image styling inside the movie card */
 .movie-card img {
-  width: 100%; /* Ensure the image spans the card width */
-  border-radius: 5px; /* Slightly rounded corners */
-  margin-bottom: 10px; /* Space between image and title */
+  width: 200px;
+  height: 300px;
+  border-radius: 0.3125rem;
+  margin-bottom: 0.625rem;
 }
 
-/* Title styling inside the movie card */
 .movie-card h3 {
   font-size: 1.1rem;
-  word-wrap: break-word; /* Wraps long words */
-  width: 100%; /* Ensures the title width matches the card width */
+  word-wrap: break-word;
+  width: 100%;
   margin: 0;
-  overflow: hidden; /* Prevent overflow for very long titles */
-  text-overflow: ellipsis; /* Adds "..." for overly long text */
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: wrap;
 }
