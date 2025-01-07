@@ -3,15 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import html
-import sys
-import os
 
-sys.path.append(os.path.abspath('../Features'))
-
-import Data
-
-output_file = '../Dataset/alldata.csv'
-df = Data.main()
+# repeat for 2017 2018 2019 2020 seperately
+df = pd.read_csv("../Dataset/data_2016")
+output_file = '../Dataset/data_2016'
 
 if 'imdb_url' not in df.columns:
     raise ValueError("The DataFrame must contain an 'imdb_url' column.")
@@ -47,7 +42,6 @@ for index, row in df.iterrows():
               
                 df.at[index, 'poster_url'] = poster_url
                 df.at[index, 'description'] = decoded_description
-                print("Added poster and description for movie")
             except json.JSONDecodeError:
                 print(f"Failed to decode JSON for URL: {cleaned_url}")
         else:

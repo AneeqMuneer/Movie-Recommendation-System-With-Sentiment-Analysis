@@ -1,11 +1,17 @@
 import pandas as pd
 import ast
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+dir = os.getenv("PROJECT_DIR")
 
 def combine_csvs():
-    data_2016 = pd.read_csv("../Dataset/data_2016.csv")
-    data_2018 = pd.read_csv("../Dataset/data_2018.csv")
-    data_2019 = pd.read_csv("../Dataset/data_2019.csv")
-    data_2020 = pd.read_csv("../Dataset/data_2020.csv")
+    data_2016 = pd.read_csv(f"{dir}/Dataset/data_2016.csv")
+    data_2018 = pd.read_csv(f"{dir}/Dataset/data_2018.csv")
+    data_2019 = pd.read_csv(f"{dir}/Dataset/data_2019.csv")
+    data_2020 = pd.read_csv(f"{dir}/Dataset/data_2020.csv")
     combined_df = pd.concat([data_2016, data_2018, data_2019, data_2020], ignore_index=True)    
     return combined_df
 

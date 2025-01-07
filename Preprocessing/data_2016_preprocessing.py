@@ -3,6 +3,12 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import re
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+dir = os.getenv("PROJECT_DIR")
 
 def get_imdb_reviews(imdb_url):
     imdb_id = imdb_url.split("/title/")[1].split("/")[0]
@@ -43,7 +49,7 @@ def fetch_and_clean_reviews(row):
     cleaned_reviews = clean_reviews(reviews)
     return cleaned_reviews
 
-df = pd.read_csv('../Dataset/movie_metadata.csv')
+df = pd.read_csv(f"{dir}/Dataset/movie_metadata.csv")
 
 df = df.loc[:,['director_name','actor_1_name','actor_2_name','actor_3_name','genres','movie_title','movie_imdb_link','title_year']]
 
@@ -68,4 +74,4 @@ df_2016 = df_2016.drop(columns=['title_year'])
 
 print(df_2016.isna().sum())
 
-df_2016.to_csv('../Dataset/data_2016.csv',index=False)
+df_2016.to_csv(f"{dir}/Dataset/data_2016.csv",index=False)

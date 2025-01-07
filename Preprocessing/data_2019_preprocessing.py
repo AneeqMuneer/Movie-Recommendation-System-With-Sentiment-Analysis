@@ -15,6 +15,7 @@ load_dotenv()
 tmdb = TMDb()
 tmdb_movie = Movie()
 tmdb.api_key = os.getenv("TMDB_API_KEY")
+dir = os.getenv("PROJECT_DIR")
 
 
 def get_genre(x):
@@ -143,4 +144,4 @@ new_df19['movie_title'] = new_df19['movie_title'].str.lower()
 
 print(new_df19.isna().sum())
 
-new_df19.to_csv("../Dataset/data_2019.csv", index=False)
+new_df19.to_csv(f"{dir}/Dataset/data_2019.csv", index=False)
