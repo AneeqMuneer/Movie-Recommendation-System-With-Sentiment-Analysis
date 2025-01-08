@@ -44,44 +44,41 @@ def get_movie_row(movie_name):
     ]
     return filtered_data
 
-def create_detail_object(filtered_data):
+def create_detail_object(movie_row):
     data = {}
-    data["name"] = filtered_data.iloc[0]["movie_title"].title()
-    data["director"] = filtered_data.iloc[0]["director_name"]
+    data["name"] = movie_row.iloc[0]["movie_title"].title()
+    data["director"] = movie_row["director_name"].tolist()
     data["actors"] = [
-        actor
-        for actor in [
-            filtered_data.iloc[0]["actor_1_name"],
-            filtered_data.iloc[0]["actor_2_name"],
-            filtered_data.iloc[0]["actor_3_name"],
+        actor for actor in [
+            movie_row.iloc[0]["actor_1_name"],
+            movie_row.iloc[0]["actor_2_name"],
+            movie_row.iloc[0]["actor_3_name"],
         ]
         if actor.lower() != "unknown"
     ]
-    data["genres"] = filtered_data.iloc[0]["genres"].split(" ")
-    data["reviews"] = filtered_data.iloc[0]["imdb_reviews"]
-    data["poster"] = filtered_data.iloc[0]["poster_url"]
-    data["description"] = filtered_data.iloc[0]["description"].capitalize()
+    data["genres"] = movie_row.iloc[0]["genres"].split(" ")
+    data["reviews"] = movie_row.iloc[0]["imdb_reviews"]
+    data["poster"] = movie_row.iloc[0]["poster_url"]
+    data["description"] = movie_row.iloc[0]["description"].capitalize()
     return data
 
+@app.route("/" , methods=["GET"])
+def home():
+    return render_template("home.html")
+
 @app.route("/recommend", methods=["GET"])
-def recommend(search=None):
-    # if search:
-    #     filtered_data = dataset[
-    #         dataset["movie_title"].str.contains(search, case=False, na=False)
-    #     ]
-    #     if not filtered_data.empty:
-    #         data = filtered_data.to_dict(orient="records")
-    # else:
-    movie_name = "the sonata"
-    filtered_data = get_movie_row(movie_name)
-    print("hello", filtered_data.iloc[0]["genres"])
-    if not filtered_data.empty:
-        data = create_detail_object(filtered_data)
-        return render_template("recommend.html", data=data)
+def recommend():
+    movie = request.args.get("search")
+    if movie:
+        print(movie)
+        filtered_data = get_movie_row(movie)
+        if filtered_data.empty:
+            return render_template("error.html")
+        else:
+            data = create_detail_object(filtered_data)
+            return render_template("recommend.html", data=data)
     else:
         return render_template("error.html")
-        
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port="5000")

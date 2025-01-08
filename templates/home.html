@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie recommendation system -- Search</title>
+    <title>Movie Recommendation System -- Search</title>
     <link rel="stylesheet" href="../static/CSS/home.css" />
   </head>
   <body>
     <div class="main">
-    <div class="big">
-        Search for Movies
-    </div>
-      <div class="searchBox">
+      <div class="big">Search for Movies</div>
+      <form action="/recommend" method="GET" class="searchBox">
         <input
           class="searchInput"
           type="text"
+          name="search"
           placeholder="Search for movies"
+          required
         />
-        <button class="searchButton">
+        <button type="submit" class="searchButton">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -34,7 +34,7 @@
             ></path>
           </svg>
         </button>
-      </div>
+      </form>
     </div>
   </body>
 </html>

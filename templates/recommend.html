@@ -8,9 +8,15 @@
   </head>
   <body>
     <!-- Search Bar -->
-    <div class="searchBox">
-      <input class="searchInput" type="text" placeholder="Search for movies" />
-      <button class="searchButton">
+    <form action="/recommend" method="GET" class="searchBox">
+      <input
+        class="searchInput"
+        type="text"
+        name="search"
+        placeholder="Search for movies"
+        required
+      />
+      <button type="submit" class="searchButton">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -27,7 +33,7 @@
           ></path>
         </svg>
       </button>
-    </div>
+    </form>
 
     <!-- Movie Details Container -->
     <div class="details">
@@ -57,17 +63,26 @@
               </p>
             </div>
             <div class="right-column">
+              <!-- Director -->
+              {% if data['director'] and data['director']|length > 0 %}
+              <div class="line"></div>
               <div class="section">
-                <div class="line"></div>
                 <strong>Director</strong>
                 <ul>
-                  {% for director in data['director_name'] %}
+                  {% for director in data['director'] %}
                   <li>{{ director }}</li>
                   {% endfor %}
                 </ul>
               </div>
+              {% endif %}
+              <!-- Line between director and actors -->
+              {% if ((data['director'] and data['director']|length > 0) or
+              (data['actors'] and data['actors']|length > 0)) %}
+              <div class="line"></div>
+              {% endif %}
+              <!-- Actors -->
+              {% if data['actors'] and data['actors']|length > 0 %}
               <div class="section">
-                <div class="line"></div>
                 <strong>Stars</strong>
                 <ul>
                   {% for actor in data['actors'] %}
@@ -75,6 +90,8 @@
                   {% endfor %}
                 </ul>
               </div>
+              <div class="line"></div>
+              {% endif %}
             </div>
           </div>
         </div>
