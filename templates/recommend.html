@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Avatar: The Way of Water</title>
+    <title>{{data['name']}}</title>
     <link rel="stylesheet" href="../static/CSS/recommend.css" />
   </head>
   <body>
@@ -40,47 +40,39 @@
       </div>
       <div class="movie-container">
         <div class="poster-div">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Avatar: The Way of Water Poster" />
+          <img src="{{data['poster']}}" alt="{{data['name']}}" />
         </div>
 
         <div class="details-div">
-          <h1>Avatar: The Way of Water</h1>
+          <h1>{{data['name']}}</h1>
           <div class="content-row">
             <div class="left-column">
               <div class="tags">
-                <span>Thriller/Mystery</span>
-                <span>Action</span>
-                <span>Adventure</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
-                <span>Fantasy</span>
+                {% for genre in data['genres'] %}
+                <span>{{ genre }}</span>
+                {% endfor %}
               </div>
               <p class="description" id="movie-description">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui ab dolorum, tenetur temporibus excepturi dignissimos tempore ipsam totam laudantium accusantium repellat maxime, reiciendis suscipit, aliquam molestiae facere quae debitis fugit?
+                {{data['description']}}
               </p>
-              <span class="read-more" id="read-more-btn">Read more</span>
             </div>
             <div class="right-column">
               <div class="section">
                 <div class="line"></div>
                 <strong>Director</strong>
                 <ul>
-                  <li>Rick Jaffa</li>
-                  <li>Amanda Silver</li>
+                  {% for director in data['director_name'] %}
+                  <li>{{ director }}</li>
+                  {% endfor %}
                 </ul>
               </div>
               <div class="section">
                 <div class="line"></div>
                 <strong>Stars</strong>
                 <ul>
-                  <li>Zoe Saldana</li>
-                  <li>Rick Jaffa</li>
-                  <li>Sigourney Weaver</li>
+                  {% for actor in data['actors'] %}
+                  <li>{{ actor }}</li>
+                  {% endfor %}
                 </ul>
               </div>
             </div>
@@ -98,10 +90,8 @@
           <span class="diamond">♦</span>
         </div>
       </div>
-      <!-- <div class="no-review">
-        <p>No reviews available for this movie</p>
-      </div> -->
       <div class="review">
+        {% if data['reviews'] and data['reviews']|length > 0 %}
         <table class="review-table">
           <thead>
             <tr>
@@ -110,36 +100,19 @@
             </tr>
           </thead>
           <tbody>
+            {% for review in data['reviews'] %}
             <tr>
-              <td>Amazing visuals and great storyline!</td>
+              <td>{{ review.capitalize() }}</td>
               <td>👍</td>
             </tr>
-            <tr>
-              <td>The movie was too slow and boring.</td>
-              <td>👎</td>
-            </tr>
-            <tr>
-              <td>Great performances by the cast!</td>
-              <td>👍</td>
-            </tr>
-            <tr>
-              <td>Not worth the hype, very predictable plot.</td>
-              <td>👎</td>
-            </tr>
-            <tr>
-              <td>Not worth the hype, very predictable plot.</td>
-              <td>👎</td>
-            </tr>
-            <tr>
-              <td>Not worth the hype, very predictable plot.</td>
-              <td>👎</td>
-            </tr>
-            <tr>
-              <td>Not worth the hype, very predictable plot.</td>
-              <td>👎</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        {% else %}
+        <div class="no-review">
+          <p>No reviews available for this movie</p>
+        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -154,43 +127,73 @@
       </div>
       <div class="recommended-movies">
         <div class="movie-card" data-movie-name="Movie 1">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 1" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 1"
+          />
           <h3>Movie 1</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 2">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 2" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 2"
+          />
           <h3>Movie 2</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 3">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 3" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 3"
+          />
           <h3>Movie 3</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 4">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 4" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 4"
+          />
           <h3>Movie 4</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 5">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 5" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 5"
+          />
           <h3>Movie 5</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 6">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 6" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 6"
+          />
           <h3>Movie 6</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 7">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 7" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 7"
+          />
           <h3>Movie 7</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 8">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 8" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 8"
+          />
           <h3>Movie 8</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 8">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 9" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 9"
+          />
           <h3>Movie 9</h3>
         </div>
         <div class="movie-card" data-movie-name="Movie 8">
-          <img src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg" alt="Movie 10" />
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
+            alt="Movie 10"
+          />
           <h3>Movie 10</h3>
         </div>
       </div>
@@ -198,35 +201,13 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const description = document.getElementById("movie-description");
-        const readMoreBtn = document.getElementById("read-more-btn");
+        const movieCards = document.querySelectorAll(".movie-card");
 
-        const isOverflowing =
-          description.scrollHeight > description.offsetHeight;
-
-        if (isOverflowing) {
-          readMoreBtn.classList.add("visible");
-
-          readMoreBtn.addEventListener("click", () => {
-            const isExpanded = description.classList.contains("expanded");
-
-            if (isExpanded) {
-              description.classList.remove("expanded");
-              readMoreBtn.textContent = "Read more";
-            } else {
-              description.classList.add("expanded");
-              readMoreBtn.textContent = "Read less";
-            }
+        movieCards.forEach((card) => {
+          card.addEventListener("click", () => {
+            const movieName = card.getAttribute("data-movie-name");
+            console.log(`Movie clicked: ${movieName}`);
           });
-        }
-      });
-
-      const movieCards = document.querySelectorAll(".movie-card");
-
-      movieCards.forEach((card) => {
-        card.addEventListener("click", () => {
-          const movieName = card.getAttribute("data-movie-name");
-          console.log(`Movie clicked: ${movieName}`);
         });
       });
     </script>

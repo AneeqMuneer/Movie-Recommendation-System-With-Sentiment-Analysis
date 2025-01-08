@@ -110,41 +110,18 @@ h1 {
   display: inline-block;
   background-color: #4a4a4a;
   color: #fff;
-  padding: 0.3125rem 0.9375rem;
+  padding: 0.5rem 1rem;
   border-radius: 1.5rem;
   font-size: 0.75rem;
   margin-right: 0.625rem;
   margin-bottom: 0.625rem;
-  font-weight: lighter;
 }
 
 .description {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1rem;
   line-height: 1.6;
   max-height: 4.8rem;
-}
-
-.read-more {
-  color: #93b3f3;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 0.625rem;
-  display: none;
-}
-
-.read-more.visible {
-  display: inline;
-}
-
-.description.expanded {
-  -webkit-line-clamp: unset;
-  max-height: unset;
-  overflow: visible;
 }
 
 .right-column {

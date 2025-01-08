@@ -3,6 +3,7 @@ import sys
 import os
 import pandas as pd
 from dotenv import load_dotenv
+import re
 
 app = Flask(__name__)
 
@@ -37,10 +38,33 @@ import Data
 
 dataset = Data.main()
 
+def get_movie_row(movie_name):
+    filtered_data = dataset[
+        dataset["movie_title"].str.strip().str.match(movie_name, case=False, na=False)
+    ]
+    return filtered_data
+
+def create_detail_object(filtered_data):
+    data = {}
+    data["name"] = filtered_data.iloc[0]["movie_title"].title()
+    data["director"] = filtered_data.iloc[0]["director_name"]
+    data["actors"] = [
+        actor
+        for actor in [
+            filtered_data.iloc[0]["actor_1_name"],
+            filtered_data.iloc[0]["actor_2_name"],
+            filtered_data.iloc[0]["actor_3_name"],
+        ]
+        if actor.lower() != "unknown"
+    ]
+    data["genres"] = filtered_data.iloc[0]["genres"].split(" ")
+    data["reviews"] = filtered_data.iloc[0]["imdb_reviews"]
+    data["poster"] = filtered_data.iloc[0]["poster_url"]
+    data["description"] = filtered_data.iloc[0]["description"].capitalize()
+    return data
 
 @app.route("/recommend", methods=["GET"])
 def recommend(search=None):
-    data = {}
     # if search:
     #     filtered_data = dataset[
     #         dataset["movie_title"].str.contains(search, case=False, na=False)
@@ -48,13 +72,15 @@ def recommend(search=None):
     #     if not filtered_data.empty:
     #         data = filtered_data.to_dict(orient="records")
     # else:
-    filtered_data = dataset[
-        dataset["movie_title"].str.match(search, case=False, na=False)
-    ]
+    movie_name = "the sonata"
+    filtered_data = get_movie_row(movie_name)
+    print("hello", filtered_data.iloc[0]["genres"])
     if not filtered_data.empty:
-        data = filtered_data.to_dict(orient="records")
-    print("data", data)
-    return render_template("recommend.html", data=data)
+        data = create_detail_object(filtered_data)
+        return render_template("recommend.html", data=data)
+    else:
+        return render_template("error.html")
+        
 
 
 if __name__ == "__main__":
