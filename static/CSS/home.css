@@ -1,0 +1,70 @@
+@font-face {
+  font-family: "MakroRegular";
+  src: url("../fonts/Makro\ Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "MakroRegular", Arial, sans-serif;
+  background-color: #202124;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main {
+  width: 90%;
+  text-align: center;
+}
+
+.big {
+  font-size: 2rem;
+  font-weight: bolder;
+  margin: 2rem 0;
+}
+
+.searchBox {
+  display: flex;
+  background: #2f3640;
+  border-radius: 3.125rem;
+  padding: 0.625rem;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.625rem;
+  font-family: MakroRegular;
+}
+
+.searchButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #2af598 0%, #009efd 100%);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.searchButton:hover {
+  background: #1a1a1a;
+}
+
+.searchButton svg path {
+  stroke: white;
+}
