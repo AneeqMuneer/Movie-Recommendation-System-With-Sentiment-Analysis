@@ -117,10 +117,12 @@
             </tr>
           </thead>
           <tbody>
-            {% for review in data['reviews'] %}
+            {% for review, sentiment in data['reviews'].items() %}
             <tr>
               <td>{{ review.capitalize() }}</td>
-              <td>👍</td>
+              <td>
+                {% if sentiment == 'negative' %} 👎 {% elif sentiment == 'positive' %} 👍 {% elif sentiment == 'nuetral' %} 😐 {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
