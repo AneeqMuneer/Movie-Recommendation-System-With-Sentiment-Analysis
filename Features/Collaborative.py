@@ -32,12 +32,15 @@ def Collaborative(movie_row):
 
     top_10_movies = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:10]
 
-    top_10_movies_json = json.dumps(
+    top_10_movies_scores_json = json.dumps({movie : score for movie, score in top_10_movies})
+    print(top_10_movies_scores_json)
+    
+    top_10_movies_poster_json = json.dumps(
         {movie.title(): dataset.loc[dataset['movie_title'] == movie, 'poster_url'].iloc[0] for movie, score in top_10_movies},
         indent=4
     )
     
-    return top_10_movies_json
+    return top_10_movies_poster_json
 
 if __name__ == "__main__":
     Collaborative()
