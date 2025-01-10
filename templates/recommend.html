@@ -121,7 +121,9 @@
             <tr>
               <td>{{ review.capitalize() }}</td>
               <td>
-                {% if sentiment == 'negative' %} 👎 {% elif sentiment == 'positive' %} 👍 {% elif sentiment == 'nuetral' %} 😐 {% endif %}
+                {% if sentiment == 'negative' %} 👎 {% elif sentiment ==
+                'positive' %} 👍 {% elif sentiment == 'nuetral' %} 😐 {% endif
+                %}
               </td>
             </tr>
             {% endfor %}
@@ -145,76 +147,18 @@
         </div>
       </div>
       <div class="recommended-movies">
-        <div class="movie-card" data-movie-name="Movie 1">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 1"
-          />
-          <h3>Movie 1</h3>
+        {% if data['recommended_movies'] and data['recommended_movies']|length > 0 %}
+          {% for movie_name, poster_url in data['recommended_movies'].items() %}
+          <div class="movie-card" data-movie-name="{{ movie_name }}">
+            <img src="{{ poster_url }}" alt="{{ movie_name }}" />
+            <h3>{{ movie_name }}</h3>
+          </div>
+          {% endfor %}
+        {% else %}
+        <div class="no-review">
+          <p>No recommended movies available for this movie</p>
         </div>
-        <div class="movie-card" data-movie-name="Movie 2">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 2"
-          />
-          <h3>Movie 2</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 3">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 3"
-          />
-          <h3>Movie 3</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 4">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 4"
-          />
-          <h3>Movie 4</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 5">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 5"
-          />
-          <h3>Movie 5</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 6">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 6"
-          />
-          <h3>Movie 6</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 7">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 7"
-          />
-          <h3>Movie 7</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 8">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 8"
-          />
-          <h3>Movie 8</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 8">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 9"
-          />
-          <h3>Movie 9</h3>
-        </div>
-        <div class="movie-card" data-movie-name="Movie 8">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_.jpg"
-            alt="Movie 10"
-          />
-          <h3>Movie 10</h3>
-        </div>
+        {% endif %}
       </div>
     </div>
 

@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 import re
 import joblib
 from collections import Counter
+import json
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -37,6 +40,7 @@ if features_dir not in sys.path:
     sys.path.append(features_dir)
 
 import Data
+import Collaborative
 
 dataset = Data.main()
 
@@ -65,10 +69,10 @@ def get_movie_row(movie_name):
     return filtered_data
 
 
-def create_detail_object(movie_row, sentiments):
+def create_detail_object(movie_row, sentiments , recommended):
     data = {}
     data["name"] = movie_row.iloc[0]["movie_title"].title()
-    data["director"] = movie_row["director_name"].tolist()
+    data["director"] = movie_row["director_name"].tolist()[:3]
     data["actors"] = [
         actor
         for actor in [
@@ -80,6 +84,7 @@ def create_detail_object(movie_row, sentiments):
     ]
     data["genres"] = movie_row.iloc[0]["genres"].split(" ")
     data["reviews"] = sentiments
+    data['recommended_movies'] = json.loads(recommended)
     data["poster"] = movie_row.iloc[0]["poster_url"]
     data["description"] = movie_row.iloc[0]["description"].capitalize()
     return data
@@ -117,16 +122,42 @@ def get_sentiment(movie_reviews):
                 final_sentiment = most_common[0][0]
 
             results[review] = final_sentiment
-            print(prediction_counts)
 
-    print(results.values())
     return results
+
+
+def get_recommended(movie_url):
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'}
+    cleaned_url = movie_url.split('/?')[0]
+
+    response = requests.get(cleaned_url, headers=headers)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'lxml')
+
+        recommended_movies = {}
+
+        movie_cards = soup.find_all('div', class_='ipc-media')
+
+        for card in movie_cards:
+            title_span = card.find_next('span', attrs={"data-testid": "title"})
+            movie_name = title_span.text if title_span else None
+            img_tag = card.find('img', class_='ipc-image')
+            poster_url = img_tag['src'] if img_tag else None
+            if movie_name and poster_url:
+                recommended_movies[movie_name] = poster_url
+                
+            if len(recommended_movies) >= 10:
+                break
+        
+        return recommended_movies
+    else:
+        print(f"Failed to fetch the webpage. Status code: {response.status_code}")
+        return {}
 
 
 @app.route("/", methods=["GET"])
 def home():
     return render_template("home.html")
-
 
 @app.route("/recommend", methods=["GET"])
 def recommend():
@@ -137,7 +168,8 @@ def recommend():
             return render_template("error.html")
         else:
             sentiments = get_sentiment(filtered_data.iloc[0]["imdb_reviews"])
-            data = create_detail_object(filtered_data, sentiments)
+            recommended = Collaborative.Collaborative(filtered_data)
+            data = create_detail_object(filtered_data, sentiments, recommended)
             return render_template("recommend.html", data=data)
     else:
         return render_template("error.html")

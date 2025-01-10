@@ -1,46 +1,43 @@
-# Import necessary libraries
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import normalize
-
-# Assuming `Data.main()` returns the dataset as a pandas DataFrame
+import json
 import Data
 
-def Collaborative():
-    # Load the dataset
+def Collaborative(movie_row):
     dataset = Data.main()
+    
+    movie_name = movie_row.iloc[0]["movie_title"]
+    director = movie_row['director_name'].tolist()
+    actors = [movie_row.iloc[0]['actor_1_name'], movie_row.iloc[0]['actor_2_name'], movie_row.iloc[0]['actor_3_name']]
+    genres =  movie_row.iloc[0]["genres"].split(" ")
 
-    # Drop the "imdb-reviews" column
-    dataset = dataset.drop(columns=["imdb_url","imdb_reviews","poster_url","description"])
+    weights = {'director': 0.15, 'actors': 0.25, 'genres': 0.6}
 
-    # Convert all multi-entry columns (e.g., directors, actors, genres) into sets for each movie
-    for col in dataset.columns:
-        dataset[col] = dataset[col].apply(lambda x: set(x.split(", ")) if isinstance(x, str) else set())
+    similarity_scores = {}
 
-    # Create a co-occurrence matrix
-    num_movies = len(dataset)
-    co_occurrence_matrix = np.zeros((num_movies, num_movies))
+    for index, row in dataset.iterrows():
 
-    # Compute co-occurrence
-    for i in range(num_movies):
-        for j in range(num_movies):
-            if i != j:
-                # Find the intersection of sets for all columns
-                shared_features = sum(
-                    len(dataset.iloc[i][col].intersection(dataset.iloc[j][col]))
-                    for col in dataset.columns
-                )
-                co_occurrence_matrix[i, j] = shared_features
+        if row['movie_title'] == movie_name:
+            continue
 
-    # Normalize the co-occurrence matrix row-wise
-    normalized_matrix = normalize(co_occurrence_matrix, norm="l1", axis=1)
+        iterated_director = row["director_name"]
+        iterated_actors = [row['actor_1_name'], row['actor_2_name'], row['actor_3_name']]
+        iterated_genres =  row["genres"].split(" ")
 
-    # Save the normalized matrix as a .npy file
-    np.save("normalized_co_occurrence_matrix.npy", normalized_matrix)
+        director_similarity = len(set(director).intersection(set(iterated_director))) / len(set(director).union(set(iterated_director))) * weights['director']
+        actor_similarity = len(set(actors).intersection(set(iterated_actors))) / len(set(actors).union(set(iterated_actors))) * weights['actors']
+        genre_similarity = len(set(genres).intersection(set(iterated_genres))) / len(set(genres).union(set(iterated_genres))) * weights['genres']
 
-    print("Normalized co-occurrence matrix saved as 'normalized_co_occurrence_matrix.npy'.")
+        total_similarity = director_similarity + actor_similarity + genre_similarity
 
-    return normalized_matrix
+        similarity_scores[row['movie_title']] = total_similarity
+
+    top_10_movies = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    top_10_movies_json = json.dumps(
+        {movie.title(): dataset.loc[dataset['movie_title'] == movie, 'poster_url'].iloc[0] for movie, score in top_10_movies},
+        indent=4
+    )
+    
+    return top_10_movies_json
 
 if __name__ == "__main__":
     Collaborative()
