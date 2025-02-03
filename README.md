@@ -134,3 +134,8 @@ http://127.0.0.1:5000
 Now, you can explore the Movie Recommendation System with Sentiment Analysis in action! 🎬✨
 
 ## 🔹 Sneak Peek 👀
+
+### **Home Page**
+
+Here you can search any movie that is in our database.
+
