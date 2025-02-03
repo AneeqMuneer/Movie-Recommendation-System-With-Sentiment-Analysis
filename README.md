@@ -8,7 +8,8 @@ This project combines **collaborative filtering** and **natural language process
 3. [Data Cleaning 🧹](#-data-cleaning-)  
 4. [Working of the Recommendation System ⚙️](#-working-of-the-recommendation-system-)  
 5. [Working of Sentiment Analysis ⚙️](#-working-of-sentiment-analysis-)  
-6. [How to Run the Project? 🤔](#-how-to-run-the-project-) 
+6. [How to Run the Project? 🤔](#-how-to-run-the-project-)
+7. [Sneak Peek 👀](#-sneak-peek-)
 
 ## 🔹 Key Features  
 - **Movie Recommendations:** Suggests movies based on similarities in **directors, actors, and genres**.  
@@ -131,3 +132,5 @@ http://127.0.0.1:5000
 ```
 
 Now, you can explore the Movie Recommendation System with Sentiment Analysis in action! 🎬✨
+
+## 🔹 Sneak Peek 👀
