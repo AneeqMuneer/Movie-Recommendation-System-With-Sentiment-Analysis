@@ -3,12 +3,12 @@
 This project combines **collaborative filtering** and **natural language processing (NLP)** to enhance movie recommendations.
 
 ## 📌 Index  
-1. [🔹 Key Features](#-key-features)  
-2. [🔹 Dataset Collection 📖](#-dataset-collection-)  
-3. [🔹 Data Cleaning 🧹](#-data-cleaning-)  
-4. [🔹 Working of the Recommendation System ⚙️](#-working-of-the-recommendation-system-)  
-5. [🔹 Working of Sentiment Analysis ⚙️](#-working-of-sentiment-analysis-)  
-6. [🔹 How to Run the Project? 🤔](#-how-to-run-the-project-) 
+1. [Key Features](#-key-features)  
+2. [Dataset Collection 📖](#-dataset-collection-)  
+3. [Data Cleaning 🧹](#-data-cleaning-)  
+4. [Working of the Recommendation System ⚙️](#-working-of-the-recommendation-system-)  
+5. [Working of Sentiment Analysis ⚙️](#-working-of-sentiment-analysis-)  
+6. [How to Run the Project? 🤔](#-how-to-run-the-project-) 
 
 ## 🔹 Key Features  
 - **Movie Recommendations:** Suggests movies based on similarities in **directors, actors, and genres**.  
@@ -89,4 +89,45 @@ Since most pre-trained models lack sufficient **neutral sentiment data**, we dev
      - 🛠 **Other classifiers**  
    - The trained models were **saved in `.pkl` format** for easy deployment.
 
-## 🔹 How to run the project? 🤔
+## 🔹 How to Run the Project? 🤔  
+
+Follow these steps to set up and run the project on your local machine: 
+
+### 1️⃣ **Install Dependencies**
+
+#### **Create a Virtual Environment**  
+```bash
+python -m venv env
+```
+
+#### **Activate the virtual environment**  
+```bash
+.\env\Scripts\activate
+```
+
+#### **Install Required Libraries**  
+```bash
+pip install -r requirements.txt
+```
+
+### 2️⃣ **Set Up Environment Variables**
+
+Create a ```.env ``` file in the root directory and add the following line:
+```
+PROJECT_DIR='your/project/root/directory'
+```
+
+### 3️⃣ **Run the Project**
+
+Navigate to the project's root directory and execute:
+```
+python main.py
+```
+
+### 4️⃣ **Access the Web Application**
+Once the server is running, open your browser and go to:
+```
+http://127.0.0.1:5000
+```
+
+Now, you can explore the Movie Recommendation System with Sentiment Analysis in action! 🎬✨
