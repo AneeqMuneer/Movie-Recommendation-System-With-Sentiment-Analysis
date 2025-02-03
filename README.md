@@ -1,6 +1,14 @@
 # 🎬 Movie Recommendation System with Sentiment Analysis  
 
-This project combines **collaborative filtering** and **natural language processing (NLP)** to enhance movie recommendations.  
+This project combines **collaborative filtering** and **natural language processing (NLP)** to enhance movie recommendations.
+
+## 📌 Index  
+1. [🔹 Key Features](#-key-features)  
+2. [🔹 Dataset Collection 📖](#-dataset-collection-)  
+3. [🔹 Data Cleaning 🧹](#-data-cleaning-)  
+4. [🔹 Working of the Recommendation System ⚙️](#-working-of-the-recommendation-system-)  
+5. [🔹 Working of Sentiment Analysis ⚙️](#-working-of-sentiment-analysis-)  
+6. [🔹 How to Run the Project? 🤔](#-how-to-run-the-project-) 
 
 ## 🔹 Key Features  
 - **Movie Recommendations:** Suggests movies based on similarities in **directors, actors, and genres**.  
