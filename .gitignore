@@ -1,3 +1,4 @@
 /env/
 .env
-Dataset/source\ Dataset/credits.csv
+Dataset/source_dataset/
+.vercel
