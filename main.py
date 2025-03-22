@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import sys
 import os
-import pandas as pd
 from dotenv import load_dotenv
 import re
 import joblib
@@ -63,30 +62,45 @@ label_mapping_reverse = {0: "positive", 1: "nuetral", 2: "negative"}
 
 
 def get_movie_row(movie_name):
-    filtered_data = dataset[
-        dataset["movie_title"].str.strip().str.match(movie_name, case=False, na=False)
-    ]
-    return filtered_data
+    """Retrieve a movie row from a JSON dataset (list of dictionaries) where the title starts with movie_name."""
+    movie_name = movie_name.strip().lower()
+
+    for row in dataset:  # dataset should be a list of dictionaries
+        if row.get("movie_title", "").strip().lower().startswith(movie_name):
+            return row  # Return the first matching row (dict)
+
+    return None  # Return None if no match is found
 
 
-def create_detail_object(movie_row, sentiments , recommended):
-    data = {}
-    data["name"] = movie_row.iloc[0]["movie_title"].title()
-    data["director"] = movie_row["director_name"].tolist()[:3]
-    data["actors"] = [
-        actor
-        for actor in [
-            movie_row.iloc[0]["actor_1_name"],
-            movie_row.iloc[0]["actor_2_name"],
-            movie_row.iloc[0]["actor_3_name"],
-        ]
-        if actor.lower() != "unknown"
-    ]
-    data["genres"] = movie_row.iloc[0]["genres"].split(" ")
-    data["reviews"] = sentiments
-    data['recommended_movies'] = json.loads(recommended)
-    data["poster"] = movie_row.iloc[0]["poster_url"]
-    data["description"] = movie_row.iloc[0]["description"].capitalize()
+
+def create_detail_object(movie_row, sentiments, recommended):
+    data = {
+        "name": movie_row.get("movie_title", "").title(),
+        "director": (
+            movie_row.get("director_name", "").split(", ")[:3]
+            if movie_row.get("director_name")
+            else []
+        ),
+        "actors": [
+            actor
+            for actor in [
+                movie_row.get("actor_1_name", ""),
+                movie_row.get("actor_2_name", ""),
+                movie_row.get("actor_3_name", ""),
+            ]
+            if actor and actor.lower() != "unknown"
+        ],
+        "genres": (
+            movie_row.get("genres", "").split(" ") if movie_row.get("genres") else []
+        ),
+        "reviews": sentiments,
+        "recommended_movies": (
+            json.loads(recommended) if isinstance(recommended, str) else recommended
+        ),
+        "poster": movie_row.get("poster_url", ""),
+        "description": movie_row.get("description", "").capitalize(),
+    }
+
     return data
 
 
@@ -100,9 +114,7 @@ def get_sentiment(movie_reviews):
             predictions = []
             for model_name, model in models.items():
                 prediction = model.predict(vectorized_review)[0]
-                predicted_label = label_mapping_reverse[
-                    int(prediction)
-                ]
+                predicted_label = label_mapping_reverse[int(prediction)]
                 predictions.append(predicted_label)
 
             prediction_counts = Counter(predictions)
@@ -110,11 +122,17 @@ def get_sentiment(movie_reviews):
 
             final_sentiment = "nuetral"
             if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
-                if ((most_common[0] == "positive" and most_common[1] == "negative") or (most_common[0] == "negative" and most_common[1] == "positive")):
+                if (most_common[0] == "positive" and most_common[1] == "negative") or (
+                    most_common[0] == "negative" and most_common[1] == "positive"
+                ):
                     final_sentiment = "nuetral"
-                elif ((most_common[0] == "positive" and most_common[1] == "nuetral") or (most_common[0] == "nuetral" and most_common[1] == "positive")):
+                elif (most_common[0] == "positive" and most_common[1] == "nuetral") or (
+                    most_common[0] == "nuetral" and most_common[1] == "positive"
+                ):
                     final_sentiment = "positive"
-                elif ((most_common[0] == "nuetral" and most_common[1] == "negative") or (most_common[0] == "negative" and most_common[1] == "nuetral")):
+                elif (most_common[0] == "nuetral" and most_common[1] == "negative") or (
+                    most_common[0] == "negative" and most_common[1] == "nuetral"
+                ):
                     final_sentiment = "negative"
                 else:
                     final_sentiment = "nuetral"
@@ -127,28 +145,30 @@ def get_sentiment(movie_reviews):
 
 
 def get_recommended(movie_url):
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'}
-    cleaned_url = movie_url.split('/?')[0]
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
+    }
+    cleaned_url = movie_url.split("/?")[0]
 
     response = requests.get(cleaned_url, headers=headers)
     if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'lxml')
+        soup = BeautifulSoup(response.content, "lxml")
 
         recommended_movies = {}
 
-        movie_cards = soup.find_all('div', class_='ipc-media')
+        movie_cards = soup.find_all("div", class_="ipc-media")
 
         for card in movie_cards:
-            title_span = card.find_next('span', attrs={"data-testid": "title"})
+            title_span = card.find_next("span", attrs={"data-testid": "title"})
             movie_name = title_span.text if title_span else None
-            img_tag = card.find('img', class_='ipc-image')
-            poster_url = img_tag['src'] if img_tag else None
+            img_tag = card.find("img", class_="ipc-image")
+            poster_url = img_tag["src"] if img_tag else None
             if movie_name and poster_url:
                 recommended_movies[movie_name] = poster_url
-                
+
             if len(recommended_movies) >= 10:
                 break
-        
+
         return recommended_movies
     else:
         print(f"Failed to fetch the webpage. Status code: {response.status_code}")
@@ -159,15 +179,16 @@ def get_recommended(movie_url):
 def home():
     return render_template("home.html")
 
+
 @app.route("/recommend", methods=["GET"])
 def recommend():
     movie = request.args.get("search")
     if movie:
         filtered_data = get_movie_row(movie)
-        if filtered_data.empty:
+        if not filtered_data:
             return render_template("error.html")
         else:
-            sentiments = get_sentiment(filtered_data.iloc[0]["imdb_reviews"])
+            sentiments = get_sentiment(filtered_data["imdb_reviews"])
             recommended = Collaborative.Collaborative(filtered_data)
             data = create_detail_object(filtered_data, sentiments, recommended)
             return render_template("recommend.html", data=data)
